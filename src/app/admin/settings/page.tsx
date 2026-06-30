@@ -181,7 +181,7 @@ export default function AdminSettingsPage() {
       setMessage({ type: 'success', text: 'تم حفظ وتحديث إعدادات البنر بنجاح!' });
       setTimeout(() => setMessage(null), 4000);
     } catch (err: any) {
-      console.error("Error saving settings:", err);
+      console.error("Error saving settings:", err.message, err.details, err.hint, err);
       setMessage({ type: 'error', text: 'حدث خطأ أثناء الحفظ: ' + (err.message || 'فشل الاتصال بقاعدة البيانات') });
     } finally {
       setIsSaving(false);
