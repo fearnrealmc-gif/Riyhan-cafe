@@ -54,14 +54,14 @@ export default function Hero() {
 
         {/* Buttons */}
         <div 
-          className="flex flex-col sm:flex-row items-center gap-4 animate-slide-up" 
+          className="flex flex-row items-center justify-center gap-2.5 w-full max-w-[340px] sm:max-w-none px-4 sm:px-0 animate-slide-up" 
           style={{ animationDelay: '0.3s' }}
         >
           <a
             href="#menu"
-            className="w-48 sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gold text-olive-dark font-bold rounded-full hover:bg-gold-light transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-gold/20 text-sm font-arabic cursor-pointer"
+            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-3 bg-gold text-olive-dark font-bold rounded-full hover:bg-gold-light transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-gold/20 text-xs sm:text-sm font-arabic cursor-pointer whitespace-nowrap"
           >
-            <MenuIcon size={16} />
+            <MenuIcon size={14} className="sm:w-4 sm:h-4" />
             استكشف القائمة
           </a>
           
@@ -69,9 +69,9 @@ export default function Hero() {
             href="https://wa.me/963999999999" // WhatsApp
             target="_blank"
             rel="noopener noreferrer"
-            className="w-48 sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-gold text-gold hover:bg-gold/10 font-bold rounded-full transition-all duration-300 text-sm font-arabic cursor-pointer"
+            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-3 border-2 border-gold text-gold hover:bg-gold/10 font-bold rounded-full transition-all duration-300 text-xs sm:text-sm font-arabic cursor-pointer whitespace-nowrap"
           >
-            <MessageCircle size={16} />
+            <MessageCircle size={14} className="sm:w-4 sm:h-4" />
             تواصل معنا
           </a>
         </div>

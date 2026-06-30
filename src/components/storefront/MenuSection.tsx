@@ -91,7 +91,7 @@ export default function MenuSection({ products, bannerSettings }: MenuSectionPro
                 {bannerSettings.button_text}
               </a>
             </div>
-            <div className="w-full md:w-64 h-40 rounded-2xl overflow-hidden relative border border-gold/15 order-1 md:order-2 shrink-0">
+            <div className="w-full md:w-64 h-28 sm:h-32 md:h-40 rounded-2xl overflow-hidden relative border border-gold/15 order-1 md:order-2 shrink-0">
               <img
                 src={bannerSettings.image_url || '/waffle.png'}
                 alt="RiEaN atmosphere"
