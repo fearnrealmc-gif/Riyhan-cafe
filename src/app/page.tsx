@@ -9,7 +9,13 @@ export const revalidate = 0;
 
 export default async function HomePage() {
   let products: Product[] = [];
-  let bannerSettings: any = null;
+  let bannerSettings = {
+    title: "خدمة توصيل سريعة",
+    description: "نصلك أينما كنت",
+    button_text: "اطلب الآن",
+    button_link: "https://wa.me/963984858449",
+    image_url: "/delivery_bag.png"
+  };
 
   try {
     const supabase = createServerSupabaseClient();
