@@ -11,16 +11,16 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Riyhan Cafe | ريحان كافيه — تجربة قهوة فاخرة",
+  title: "RiEaN Cafe | ريحان كافيه — تجربة قهوة فاخرة",
   description:
     "استمتع بتجربة قهوة مختصة فاخرة ومعجنات طازجة وتصفح قائمة الأسعار في ريحان كافيه.",
-  keywords: ["ريحان كافيه", "Riyhan Cafe", "قهوة مختصة", "كافيه", "اسبريسو", "كريب", "وافل", "بانكيك", "قهوة ساخنة", "عصائر", "كوكتيلات"],
+  keywords: ["ريحان كافيه", "RiEaN Cafe", "قهوة مختصة", "كافيه", "اسبريسو", "كريب", "وافل", "بانكيك", "قهوة ساخنة", "عصائر", "كوكتيلات"],
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
-    title: "Riyhan Cafe | ريحان كافيه — تجربة قهوة فاخرة",
+    title: "RiEaN Cafe | ريحان كافيه — تجربة قهوة فاخرة",
     description: "استمتع بتجربة قهوة مختصة فاخرة ومعجنات طازجة وتصفح قائمة الأسعار في ريحان كافيه.",
     type: "website",
     images: [
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
         url: "/logo.jpg",
         width: 800,
         height: 800,
-        alt: "Riyhan Cafe Logo",
+        alt: "RiEaN Cafe Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Riyhan Cafe | ريحان كافيه",
+    title: "RiEaN Cafe | ريحان كافيه",
     description: "استمتع بتجربة قهوة مختصة فاخرة ومعجنات طازجة وتصفح قائمة الأسعار في ريحان كافيه.",
     images: ["/logo.jpg"],
   },
