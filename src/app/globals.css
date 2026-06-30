@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/* Enable class-based dark mode in Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   Riyhan Cafe — Global Styles & Design System
+   ============================================================ */
+
+/* Google Fonts — loaded via next/font in layout.tsx for performance */
+
+/* --- Tailwind v4 Theme Extension --- */
+@theme inline {
+  /* Brand Colors */
+  --color-olive: #2A3B24;
+  --color-olive-light: #3D5435;
+  --color-olive-dark: #1E2B1A;
+  --color-olive-muted: #4A6340;
+  --color-gold: #D4AF37;
+  --color-gold-light: #E4C75A;
+  --color-gold-dark: #B8961F;
+  --color-offwhite: #FAF9F6;
+  --color-cream: #F5F0E8;
+  --color-warm-gray: #8B8680;
+  --color-charcoal: #2C2C2C;
+
+  /* Typography */
+  --font-sans: "Inter", "Helvetica Neue", system-ui, sans-serif;
+  --font-arabic: "Tajawal", "Segoe UI", sans-serif;
+
+  /* Spacing scale extras */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+  --spacing-112: 28rem;
+  --spacing-128: 32rem;
+
+  /* Custom animations */
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-slide-up: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slide-down: slide-down 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slide-right: slide-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-in: scale-in 0.2s ease-out forwards;
+  --animate-pulse-gold: pulse-gold 2s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+}
+
+/* --- Keyframes --- */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* --- Base Styles --- */
+:root {
+  --background: #FAF9F6;
+  --foreground: #2C2C2C;
+}
+
+.dark {
+  --background: #0D140A; /* Deep dark olive background */
+  --foreground: #FAF9F6; /* Offwhite text */
+  
+  /* Redefine Tailwind v4 theme colors inside .dark */
+  --color-white: #131E10; /* Dark olive card/modal background */
+  --color-offwhite: #0D140A; /* Deep dark olive body background */
+  --color-cream: #1C2B18; /* Medium dark olive */
+  --color-cream-light: #162413; /* Slightly lighter dark olive */
+  --color-charcoal: #FAF9F6; /* Main text color -> offwhite */
+  --color-warm-gray: #9AB092; /* Secondary text color -> light green-gray */
+  
+  /* Overwrite Tailwind gray scale borders for dark mode */
+  --color-gray-50: rgba(255, 255, 255, 0.02);
+  --color-gray-100: rgba(255, 255, 255, 0.06);
+  --color-gray-200: rgba(255, 255, 255, 0.10);
+  --color-gray-300: rgba(255, 255, 255, 0.18);
+}
+
+/* Bulletproof text color overrides for dark mode */
+.dark .text-charcoal,
+.dark [class*="text-charcoal"] {
+  color: #FAF9F6 !important;
+}
+
+.dark .text-warm-gray,
+.dark [class*="text-warm-gray"] {
+  color: #9AB092 !important;
+}
+
+.dark .text-olive {
+  color: #FAF9F6 !important; /* Make primary brand text white/offwhite in dark mode */
+}
+
+.dark .hover\:text-olive:hover {
+  color: #E4C75A !important; /* Gold on hover in dark mode */
+}
+
+.dark .group-hover\:text-olive:hover,
+.dark .group:hover .group-hover\:text-olive,
+.dark .group:hover .dark\:group-hover\:text-gold {
+  color: #E4C75A !important;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #D4AF37 transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Selection Color --- */
+::selection {
+  background-color: rgba(212, 175, 55, 0.25);
+  color: #2A3B24;
+}
+
+/* --- Custom Scrollbar (WebKit) --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(212, 175, 55, 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(212, 175, 55, 0.6);
+}
+
+/* --- Focus ring style --- */
+*:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --- Skeleton Loader --- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0ede6 25%,
+    #e8e4dc 50%,
+    #f0ede6 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  border-radius: 8px;
+}
+
+/* --- Glass effect utility --- */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(13, 20, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* --- Admin dark glass --- */
+.glass-dark {
+  background: rgba(42, 59, 36, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
