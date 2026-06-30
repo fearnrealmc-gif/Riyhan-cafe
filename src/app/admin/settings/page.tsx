@@ -150,7 +150,7 @@ export default function AdminSettingsPage() {
           });
 
         if (uploadError) {
-          throw new Error('فشل رفع الصورة إلى التخزين. تأكد من إعدادات الـ Bucket.');
+          throw new Error('فشل رفع الصورة إلى التخزين: ' + (uploadError.message || JSON.stringify(uploadError)));
         }
 
         const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
