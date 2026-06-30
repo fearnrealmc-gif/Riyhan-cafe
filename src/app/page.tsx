@@ -5,6 +5,7 @@ import MenuSection from '@/components/storefront/MenuSection';
 import type { Product } from '@/types';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function HomePage() {
   let products: Product[] = [];
