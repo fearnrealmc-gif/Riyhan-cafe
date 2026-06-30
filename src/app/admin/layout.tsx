@@ -11,12 +11,14 @@ import {
   ChevronRight,
   ChevronLeft,
   Shield,
+  Settings,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 
 const navItems = [
   { href: '/admin/menu', label: 'إدارة المنيو', icon: UtensilsCrossed },
+  { href: '/admin/settings', label: 'إعدادات البنر', icon: Settings },
 ];
 
 export default function AdminLayout({

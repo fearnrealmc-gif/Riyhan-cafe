@@ -3,27 +3,45 @@ import Navbar from '@/components/storefront/Navbar';
 import Hero from '@/components/storefront/Hero';
 import MenuSection from '@/components/storefront/MenuSection';
 import type { Product } from '@/types';
-import { MessageCircle, Compass } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-
   let products: Product[] = [];
+  let bannerSettings = {
+    title: "أجواء مميزة وجلسات فريدة",
+    description: "نرحب بكم دائماً لقضاء أوقات هادئة وتذوق أشهى المشروبات والمعجنات الطازجة في ريحان كافيه.",
+    button_text: "احجز طاولتك الآن",
+    button_link: "https://wa.me/963999999999",
+    image_url: "/waffle.png"
+  };
 
   try {
     const supabase = createServerSupabaseClient();
-    const { data, error } = await supabase
+    
+    // Fetch products
+    const { data: productsData, error: productsError } = await supabase
       .from('products')
       .select('*')
       .order('category', { ascending: true })
       .order('name_en', { ascending: true });
 
-    if (!error && data) {
-      products = data as Product[];
+    if (!productsError && productsData) {
+      products = productsData as Product[];
     }
-  } catch {
 
+    // Fetch banner settings
+    const { data: settingsData, error: settingsError } = await supabase
+      .from('settings')
+      .select('value')
+      .eq('key', 'promo_banner')
+      .single();
+
+    if (!settingsError && settingsData?.value) {
+      bannerSettings = settingsData.value as typeof bannerSettings;
+    }
+  } catch (err) {
+    console.error("Failed to fetch homepage data:", err);
   }
 
   return (
@@ -34,45 +52,9 @@ export default async function HomePage() {
         
         <Hero />
 
-        {/* Menu Section */}
+        {/* Menu Section (includes Categories, Promo Banner, and Products) */}
         <section id="menu" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-          <MenuSection products={products} />
-        </section>
-
-        {/* Feature / Promo Banner */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-gradient-to-br from-cream dark:from-olive/30 to-white dark:to-black/90 rounded-3xl border border-gold/20 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-gold/[0.01] transition-all">
-            <div className="flex-1 text-right space-y-4 order-2 md:order-1">
-              <div className="flex items-center gap-3 justify-start">
-                <span className="p-2 bg-gold/10 rounded-xl text-gold">
-                  <Compass size={22} className="animate-pulse" />
-                </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-charcoal dark:text-offwhite font-arabic">أجواء مميزة وجلسات فريدة</h3>
-              </div>
-              <p className="text-xs sm:text-sm text-charcoal/75 dark:text-offwhite/60 leading-relaxed max-w-md">
-                نرحب بكم دائماً لقضاء أوقات هادئة وتذوق أشهى المشروبات والمعجنات الطازجة في ريحان كافيه.
-              </p>
-              <a
-                href="https://wa.me/963999999999"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-gold hover:bg-gold-light text-olive-dark font-bold text-xs rounded-full transition-all cursor-pointer shadow-md shadow-gold/10"
-              >
-                <MessageCircle size={14} />
-                احجز طاولتك الآن
-              </a>
-            </div>
-            <div className="w-full md:w-80 h-48 rounded-2xl overflow-hidden relative border border-gold/15 order-1 md:order-2">
-              <img
-                src="/waffle.png"
-                alt="RiEaN atmosphere"
-                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <span className="text-gold font-serif text-2xl font-bold tracking-widest bg-black/70 px-4 py-1.5 rounded-xl border border-gold/20">RiEaN</span>
-              </div>
-            </div>
-          </div>
+          <MenuSection products={products} bannerSettings={bannerSettings} />
         </section>
 
         {/* Gallery Section ("من أجوائنا") */}
