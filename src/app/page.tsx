@@ -6,6 +6,8 @@ import Hero from '@/components/storefront/Hero';
 import MenuSection from '@/components/storefront/MenuSection';
 import type { Product } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
 
   let products: Product[] = [];
