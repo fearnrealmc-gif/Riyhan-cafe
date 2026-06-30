@@ -151,13 +151,13 @@ export default function CategoryFilter({
                   'w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 border',
                   isActive
                     ? 'border-gold bg-gold/15 scale-105 shadow-lg shadow-gold/10'
-                    : 'border-white/10 bg-white/5 hover:border-gold/50 hover:bg-white/10'
+                    : 'border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 hover:border-gold/50 hover:bg-cream dark:hover:bg-white/10'
                 )}
               >
                 <span
                   className={cn(
                     'transition-colors duration-300',
-                    isActive ? 'text-gold' : 'text-offwhite/60 group-hover:text-gold'
+                    isActive ? 'text-gold' : 'text-charcoal/60 dark:text-offwhite/60 group-hover:text-gold'
                   )}
                 >
                   {categoryIcons[cat.key] || <Coffee size={22} />}
@@ -166,7 +166,7 @@ export default function CategoryFilter({
               <span
                 className={cn(
                   'text-xs font-medium font-arabic transition-colors duration-300',
-                  isActive ? 'text-gold font-semibold' : 'text-offwhite/60 group-hover:text-gold'
+                  isActive ? 'text-gold font-semibold' : 'text-charcoal/60 dark:text-offwhite/60 group-hover:text-gold'
                 )}
               >
                 {cat.label_ar}
