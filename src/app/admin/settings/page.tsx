@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Save, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Save, AlertCircle, CheckCircle2, Upload, X } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { supabase } from '@/lib/supabase/client';
@@ -14,6 +14,58 @@ interface BannerSettings {
   image_url: string;
 }
 
+// Helper function to compress images before uploading (max 800x800, jpeg, 75% quality)
+const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.75): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error('Failed to get canvas context'));
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error('Canvas to Blob conversion failed'));
+            }
+          },
+          'image/jpeg',
+          quality
+        );
+      };
+      img.onerror = (err) => reject(err);
+    };
+    reader.onerror = (err) => reject(err);
+  });
+};
+
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<BannerSettings>({
     title: '',
@@ -22,6 +74,9 @@ export default function AdminSettingsPage() {
     button_link: '',
     image_url: '',
   });
+  
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
   
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -40,7 +95,9 @@ export default function AdminSettingsPage() {
         if (error) {
           console.log("No settings found, using defaults.");
         } else if (data?.value) {
-          setSettings(data.value as BannerSettings);
+          const bannerData = data.value as BannerSettings;
+          setSettings(bannerData);
+          setImagePreview(bannerData.image_url || '');
         }
       } catch (err) {
         console.error("Error fetching settings:", err);
@@ -52,24 +109,76 @@ export default function AdminSettingsPage() {
     fetchSettings();
   }, []);
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('حجم الصورة كبير جداً! الحد الأقصى هو 5 ميجابايت.');
+      return;
+    }
+
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     setMessage(null);
 
+    let finalImageUrl = settings.image_url;
+
     try {
-      // Upsert settings in the database
+      // 1. Upload image if a new file is selected
+      if (imageFile) {
+        const compressedBlob = await compressImage(imageFile);
+        const fileExt = 'jpg';
+        const fileName = `banner-${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `banners/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, compressedBlob, {
+            contentType: 'image/jpeg',
+            cacheControl: '3600',
+            upsert: true
+          });
+
+        if (uploadError) {
+          throw new Error('فشل رفع الصورة إلى التخزين. تأكد من إعدادات الـ Bucket.');
+        }
+
+        const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
+        finalImageUrl = data.publicUrl;
+      } else if (imagePreview === '') {
+        // If image was removed
+        finalImageUrl = '';
+      }
+
+      const updatedSettings = {
+        ...settings,
+        image_url: finalImageUrl
+      };
+
+      // 2. Save settings back to database
       const { error } = await supabase
         .from('settings')
         .upsert({
           key: 'promo_banner',
-          value: settings,
+          value: updatedSettings,
           updated_at: new Date().toISOString(),
         }, { onConflict: 'key' });
 
       if (error) throw error;
 
-      setMessage({ type: 'success', text: 'تم حفظ إعدادات البنر بنجاح!' });
+      setSettings(updatedSettings);
+      setImageFile(null);
+      setMessage({ type: 'success', text: 'تم حفظ وتحديث إعدادات البنر بنجاح!' });
       setTimeout(() => setMessage(null), 4000);
     } catch (err: any) {
       console.error("Error saving settings:", err);
@@ -110,7 +219,7 @@ export default function AdminSettingsPage() {
       )}
 
       <form onSubmit={handleSave} className="bg-olive-light/50 backdrop-blur-sm rounded-2xl border border-white/5 p-6 space-y-6">
-        <div className="space-y-4">
+        <div className="space-y-5">
           <Input
             label="العنوان الرئيسي للبنر"
             placeholder="مثال: أجواء مميزة وجلسات فريدة"
@@ -155,31 +264,46 @@ export default function AdminSettingsPage() {
             />
           </div>
 
-          <Input
-            label="رابط صورة البنر"
-            placeholder="مثال: /waffle.png أو رابط صورة خارجي"
-            value={settings.image_url}
-            onChange={(e) => setSettings({ ...settings, image_url: e.target.value })}
-            required
-            className="bg-black/20 border-white/10 text-offwhite focus:border-gold text-left"
-            dir="ltr"
-          />
-
-          {settings.image_url && (
-            <div className="space-y-2">
-              <span className="block text-xs font-medium text-offwhite/40 font-arabic">معاينة الصورة:</span>
-              <div className="w-full h-40 rounded-xl overflow-hidden border border-white/10 relative">
-                <img
-                  src={settings.image_url}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?q=80&w=600';
-                  }}
+          {/* Image Upload Component */}
+          <div>
+            <label className="block text-sm font-medium text-offwhite/80 mb-1.5 font-arabic">
+              صورة البنر (أقصى حجم 5 ميجابايت)
+            </label>
+            <div className="flex items-center gap-4">
+              {imagePreview ? (
+                <div className="relative w-32 h-20 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-black/20">
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImageFile(null);
+                      setImagePreview('');
+                      setSettings(prev => ({ ...prev, image_url: '' }));
+                    }}
+                    className="absolute top-1 right-1 p-1 bg-black/70 hover:bg-black/95 text-white rounded-full transition-colors cursor-pointer"
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+              ) : (
+                <div className="w-32 h-20 rounded-xl bg-black/25 border-2 border-dashed border-white/10 flex items-center justify-center text-warm-gray text-xs shrink-0 font-arabic">
+                  لا توجد صورة
+                </div>
+              )}
+              <label className="flex-1">
+                <span className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-offwhite hover:bg-white/10 text-sm font-medium transition-colors cursor-pointer w-full text-center font-arabic">
+                  <Upload size={16} className="text-gold animate-bounce" />
+                  اختر صورة للبنر
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
                 />
-              </div>
+              </label>
             </div>
-          )}
+          </div>
         </div>
 
         <div className="flex justify-end pt-4 border-t border-white/5">
