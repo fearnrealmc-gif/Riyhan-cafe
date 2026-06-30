@@ -8,13 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   let products: Product[] = [];
-  let bannerSettings = {
-    title: "أجواء مميزة وجلسات فريدة",
-    description: "نرحب بكم دائماً لقضاء أوقات هادئة وتذوق أشهى المشروبات والمعجنات الطازجة في ريحان كافيه.",
-    button_text: "احجز طاولتك الآن",
-    button_link: "https://wa.me/963999999999",
-    image_url: "/waffle.png"
-  };
+  let bannerSettings: any = null;
 
   try {
     const supabase = createServerSupabaseClient();
