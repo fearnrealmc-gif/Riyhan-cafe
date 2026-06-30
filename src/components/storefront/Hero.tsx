@@ -25,18 +25,13 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-3xl mx-auto flex flex-col items-center">
         
-        {/* Stylized RiEaN CAFE Logo */}
-        <div className="animate-fade-in mb-8 flex flex-col items-center">
-          <span className="text-6xl sm:text-8xl font-serif tracking-[0.15em] text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-gold-dark font-bold drop-shadow-md">
-            RiEaN
-          </span>
-          <div className="flex items-center gap-3 mt-3 w-full justify-center">
-            <div className="h-[1px] w-12 bg-gold/40" />
-            <span className="text-xs sm:text-sm tracking-[0.4em] text-gold font-light uppercase">
-              CAFE
-            </span>
-            <div className="h-[1px] w-12 bg-gold/40" />
-          </div>
+        {/* Circular Logo Emblem (without background) */}
+        <div className="animate-fade-in mb-8">
+          <img
+            src="/logo_circular.png"
+            alt="RiEaN CAFE"
+            className="w-36 h-36 sm:w-48 sm:h-48 object-contain drop-shadow-2xl filter brightness-105 hover:scale-105 transition-transform duration-500"
+          />
         </div>
 
         {/* Heading */}
