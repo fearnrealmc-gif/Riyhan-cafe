@@ -27,7 +27,7 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="bg-black text-offwhite min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-offwhite dark:bg-black text-charcoal dark:text-offwhite transition-colors duration-300">
       <Navbar />
 
       <main className="flex-1">
@@ -41,15 +41,15 @@ export default async function HomePage() {
 
         {/* Feature / Promo Banner */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-gradient-to-br from-olive/30 to-black/90 rounded-3xl border border-gold/20 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-gold/[0.01]">
+          <div className="bg-gradient-to-br from-cream dark:from-olive/30 to-white dark:to-black/90 rounded-3xl border border-gold/20 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-gold/[0.01] transition-all">
             <div className="flex-1 text-right space-y-4 order-2 md:order-1">
               <div className="flex items-center gap-3 justify-start">
                 <span className="p-2 bg-gold/10 rounded-xl text-gold">
                   <Compass size={22} className="animate-pulse" />
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-offwhite font-arabic">أجواء مميزة وجلسات فريدة</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-charcoal dark:text-offwhite font-arabic">أجواء مميزة وجلسات فريدة</h3>
               </div>
-              <p className="text-xs sm:text-sm text-offwhite/60 leading-relaxed max-w-md">
+              <p className="text-xs sm:text-sm text-charcoal/75 dark:text-offwhite/60 leading-relaxed max-w-md">
                 نرحب بكم دائماً لقضاء أوقات هادئة وتذوق أشهى المشروبات والمعجنات الطازجة في ريحان كافيه.
               </p>
               <a
@@ -91,7 +91,7 @@ export default async function HomePage() {
             ].map((item, idx) => (
               <div 
                 key={idx} 
-                className="group relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-white/5"
+                className="group relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-lg bg-white dark:bg-white/5"
               >
                 <img
                   src={item.src}
@@ -107,13 +107,13 @@ export default async function HomePage() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-white/10 py-10 mt-8 bg-black">
+        <footer className="border-t border-gray-200 dark:border-white/10 py-10 mt-8 bg-cream dark:bg-black transition-colors">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="flex items-center justify-center gap-2.5 mb-3">
               <div className="w-8 h-8 rounded-full bg-gold/15 flex items-center justify-center border border-gold/30">
                 <span className="text-gold font-bold text-sm font-serif">R</span>
               </div>
-              <span className="text-sm font-bold text-offwhite">ريحان كافيه</span>
+              <span className="text-sm font-bold text-charcoal dark:text-offwhite">ريحان كافيه</span>
               <span className="text-xs text-gold font-serif">
                 RiEaN CAFE
               </span>
