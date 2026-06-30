@@ -14,8 +14,8 @@ interface BannerSettings {
   image_url: string;
 }
 
-// Helper function to compress images before uploading (max 800x800, jpeg, 75% quality)
-const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.75): Promise<Blob> => {
+// Helper function to compress images before converting to Base64 (max 600x400, jpeg, 70% quality for small database size)
+const compressImage = (file: File, maxWidth = 600, maxHeight = 400, quality = 0.7): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -63,6 +63,16 @@ const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.
       img.onerror = (err) => reject(err);
     };
     reader.onerror = (err) => reject(err);
+  });
+};
+
+// Helper function to convert Blob/File to Base64 string
+const blobToBase64 = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
   });
 };
 
@@ -134,27 +144,11 @@ export default function AdminSettingsPage() {
     let finalImageUrl = settings.image_url;
 
     try {
-      // 1. Upload image if a new file is selected
+      // 1. Convert image to Base64 if a new file is selected
       if (imageFile) {
         const compressedBlob = await compressImage(imageFile);
-        const fileExt = 'jpg';
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-        const filePath = `products/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('product-images')
-          .upload(filePath, compressedBlob, {
-            contentType: 'image/jpeg',
-            cacheControl: '3600',
-            upsert: true
-          });
-
-        if (uploadError) {
-          throw new Error('فشل رفع الصورة إلى التخزين: ' + (uploadError.message || JSON.stringify(uploadError)));
-        }
-
-        const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
-        finalImageUrl = data.publicUrl;
+        const base64String = await blobToBase64(compressedBlob);
+        finalImageUrl = base64String;
       } else if (imagePreview === '') {
         // If image was removed
         finalImageUrl = '';
@@ -292,7 +286,7 @@ export default function AdminSettingsPage() {
               )}
               <label className="flex-1">
                 <span className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-offwhite hover:bg-white/10 text-sm font-medium transition-colors cursor-pointer w-full text-center font-arabic">
-                  <Upload size={16} className="text-gold animate-bounce" />
+                  <Upload size={16} className="text-gold" />
                   اختر صورة للبنر
                 </span>
                 <input
