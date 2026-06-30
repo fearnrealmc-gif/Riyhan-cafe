@@ -138,7 +138,7 @@ export default function AdminSettingsPage() {
       if (imageFile) {
         const compressedBlob = await compressImage(imageFile);
         const fileExt = 'jpg';
-        const fileName = `banner-${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
         const filePath = `products/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
