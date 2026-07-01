@@ -74,8 +74,8 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
 
         
         <span className="absolute top-3 right-3 px-2 py-0.5 bg-white/80 backdrop-blur-sm rounded-full text-[10px] font-medium text-olive uppercase tracking-wider">
-          {product.category === 'hot_coffee' && 'قهوة ساخنة'}
-          {product.category === 'cold_coffee' && 'قهوة باردة'}
+          {product.category === 'hot_coffee' && 'مشروبات ساخنة'}
+          {product.category === 'cold_coffee' && 'مشروبات باردة'}
           {product.category === 'tea' && 'شاي'}
           {product.category === 'pastry' && 'معجنات'}
           {product.category === 'juices' && 'عصائر'}

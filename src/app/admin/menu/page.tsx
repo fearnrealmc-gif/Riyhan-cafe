@@ -20,8 +20,8 @@ import { formatPrice, cn } from '@/lib/utils';
 import type { Product } from '@/types';
 
 const CATEGORY_OPTIONS = [
-  { value: 'hot_coffee', label: 'قهوة ساخنة' },
-  { value: 'cold_coffee', label: 'قهوة باردة' },
+  { value: 'hot_coffee', label: 'مشروبات ساخنة' },
+  { value: 'cold_coffee', label: 'مشروبات باردة' },
   { value: 'juices', label: 'عصائر' },
   { value: 'ice_cream', label: 'آيس كريم' },
   { value: 'ice_coffee', label: 'آيس كوفي' },

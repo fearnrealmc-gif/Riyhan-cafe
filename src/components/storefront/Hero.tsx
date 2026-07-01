@@ -66,7 +66,7 @@ export default function Hero() {
           </a>
           
           <a
-            href="https://wa.me/963999999999" // WhatsApp
+            href="https://wa.me/963984858449" // WhatsApp
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-3 border-2 border-gold text-gold hover:bg-gold/10 font-bold rounded-full transition-all duration-300 text-xs sm:text-sm font-arabic cursor-pointer whitespace-nowrap"

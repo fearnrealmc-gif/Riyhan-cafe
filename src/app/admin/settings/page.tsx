@@ -250,7 +250,7 @@ export default function AdminSettingsPage() {
 
             <Input
               label="رابط الزر (رابط الواتساب أو صفحة)"
-              placeholder="مثال: https://wa.me/963999999999"
+              placeholder="مثال: https://wa.me/963984858449"
               value={settings.button_link}
               onChange={(e) => setSettings({ ...settings, button_link: e.target.value })}
               required

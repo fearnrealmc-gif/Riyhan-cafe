@@ -94,8 +94,8 @@ export interface CartState {
 
 export const CATEGORIES = [
   { key: 'all', label_en: 'All', label_ar: 'الكل' },
-  { key: 'hot_coffee', label_en: 'Hot Coffee', label_ar: 'قهوة ساخنة' },
-  { key: 'cold_coffee', label_en: 'Cold Coffee', label_ar: 'قهوة باردة' },
+  { key: 'hot_coffee', label_en: 'Hot Drinks', label_ar: 'مشروبات ساخنة' },
+  { key: 'cold_coffee', label_en: 'Cold Drinks', label_ar: 'مشروبات باردة' },
   { key: 'juices', label_en: 'Juices', label_ar: 'عصائر' },
   { key: 'ice_cream', label_en: 'Ice Cream', label_ar: 'آيس كريم' },
   { key: 'ice_coffee', label_en: 'Ice Coffee', label_ar: 'آيس كوفي' },
