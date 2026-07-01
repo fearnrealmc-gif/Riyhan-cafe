@@ -14,8 +14,7 @@ interface BannerSettings {
   image_url: string;
 }
 
-// Helper function to compress images before converting to Base64 (max 600x400, jpeg, 70% quality for small database size)
-const compressImage = (file: File, maxWidth = 600, maxHeight = 400, quality = 0.7): Promise<Blob> => {
+const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.75): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -66,16 +65,6 @@ const compressImage = (file: File, maxWidth = 600, maxHeight = 400, quality = 0.
   });
 };
 
-// Helper function to convert Blob/File to Base64 string
-const blobToBase64 = (blob: Blob): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-};
-
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<BannerSettings>({
     title: '',
@@ -84,10 +73,10 @@ export default function AdminSettingsPage() {
     button_link: '',
     image_url: '',
   });
-  
+
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -144,13 +133,27 @@ export default function AdminSettingsPage() {
     let finalImageUrl = settings.image_url;
 
     try {
-      // 1. Convert image to Base64 if a new file is selected
       if (imageFile) {
         const compressedBlob = await compressImage(imageFile);
-        const base64String = await blobToBase64(compressedBlob);
-        finalImageUrl = base64String;
+        const fileExt = 'jpg';
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const filePath = `products/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, compressedBlob, {
+            contentType: 'image/jpeg',
+            cacheControl: '3600',
+            upsert: true
+          });
+
+        if (uploadError) {
+          throw new Error('فشل رفع الصورة إلى التخزين: ' + (uploadError.message || JSON.stringify(uploadError)));
+        }
+
+        const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
+        finalImageUrl = data.publicUrl;
       } else if (imagePreview === '') {
-        // If image was removed
         finalImageUrl = '';
       }
 
@@ -159,7 +162,6 @@ export default function AdminSettingsPage() {
         image_url: finalImageUrl
       };
 
-      // 2. Save settings back to database
       const { error } = await supabase
         .from('settings')
         .upsert({
@@ -175,7 +177,7 @@ export default function AdminSettingsPage() {
       setMessage({ type: 'success', text: 'تم حفظ وتحديث إعدادات البنر بنجاح!' });
       setTimeout(() => setMessage(null), 4000);
     } catch (err: any) {
-      console.error("Error saving settings:", err.message, err.details, err.hint, err);
+      console.error("Error saving settings:", err);
       setMessage({ type: 'error', text: 'حدث خطأ أثناء الحفظ: ' + (err.message || 'فشل الاتصال بقاعدة البيانات') });
     } finally {
       setIsSaving(false);
@@ -201,11 +203,10 @@ export default function AdminSettingsPage() {
 
       {message && (
         <div
-          className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm animate-fade-in ${
-            message.type === 'success'
-              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-              : 'border-red-500/30 bg-red-500/10 text-red-400'
-          }`}
+          className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm animate-fade-in ${message.type === 'success'
+            ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+            : 'border-red-500/30 bg-red-500/10 text-red-400'
+            }`}
         >
           {message.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
           <span className="font-arabic">{message.text}</span>
@@ -258,7 +259,6 @@ export default function AdminSettingsPage() {
             />
           </div>
 
-          {/* Image Upload Component */}
           <div>
             <label className="block text-sm font-medium text-offwhite/80 mb-1.5 font-arabic">
               صورة البنر (أقصى حجم 5 ميجابايت)
@@ -286,7 +286,7 @@ export default function AdminSettingsPage() {
               )}
               <label className="flex-1">
                 <span className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5 text-offwhite hover:bg-white/10 text-sm font-medium transition-colors cursor-pointer w-full text-center font-arabic">
-                  <Upload size={16} className="text-gold" />
+                  <Upload size={16} className="text-gold animate-bounce" />
                   اختر صورة للبنر
                 </span>
                 <input

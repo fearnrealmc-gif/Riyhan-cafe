@@ -60,6 +60,32 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     return unitPrice;
   }, [unitPrice]);
 
+  const whatsappUrl = useMemo(() => {
+    if (!product) return '#';
+    
+    const messageParts = [
+      `*طلب جديد من ريحان كافيه* ☕`,
+      `--------------------`,
+      `*المنتج:* ${product.name_ar || product.name_en}`,
+    ];
+
+    if (selectedSize) {
+      const sizeName = sizeLabels[selectedSize.name] || selectedSize.name;
+      messageParts.push(`*الحجم:* ${sizeName}`);
+    }
+
+    if (selectedAddons.length > 0) {
+      const addonsStr = selectedAddons.map((a) => `- ${a.name}`).join('\n');
+      messageParts.push(`*الإضافات:*\n${addonsStr}`);
+    }
+
+    messageParts.push(`--------------------`);
+    messageParts.push(`*السعر الإجمالي:* ${formatPrice(totalPrice, product.currency || 'USD')}`);
+
+    const formattedMessage = messageParts.join('\n');
+    return `https://wa.me/963984858449?text=${encodeURIComponent(formattedMessage)}`;
+  }, [product, selectedSize, selectedAddons, totalPrice]);
+
   const toggleAddon = (addon: SelectedAddon) => {
     setSelectedAddons((prev) =>
       prev.find((a) => a.name === addon.name)
@@ -210,11 +236,23 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
                   </div>
                 </div>
 
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 rounded-2xl text-base font-bold py-4 bg-[#25D366] text-white hover:bg-[#20ba5a] active:bg-[#1da851] transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg shadow-[#25D366]/10 hover:shadow-[#25D366]/20 mb-3"
+                >
+                  <svg className="w-5.5 h-5.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.864.002-2.637-1.03-5.114-2.906-6.99C16.246 1.864 13.758 1.83 11.13 1.83c-5.437 0-9.863 4.421-9.867 9.865-.001 1.77.464 3.5 1.346 5.037L1.618 21.93l5.029-1.32c1.513.825 3.103 1.258 4.707 1.258zm9.361-6.666c-.23-.115-1.36-.672-1.571-.749-.21-.077-.363-.115-.517.115-.154.23-.597.749-.732.904-.134.153-.268.172-.498.057-.23-.115-.97-.358-1.848-1.141-.683-.61-1.145-1.363-1.278-1.593-.134-.23-.014-.354.1-.469.103-.103.23-.268.344-.403.115-.134.153-.23.23-.383.077-.154.038-.287-.019-.403-.057-.115-.517-1.245-.709-1.7-.186-.448-.372-.387-.517-.394-.134-.006-.287-.007-.441-.007-.153 0-.403.057-.613.287-.21.23-.804.786-.804 1.916 0 1.13.822 2.222.937 2.376.115.154 1.618 2.47 3.92 3.467.548.237 1.036.378 1.39.49.55.175 1.05.15 1.446.09.44-.066 1.36-.557 1.552-1.094.191-.537.191-.996.134-1.094-.057-.095-.21-.153-.44-.268z" />
+                  </svg>
+                  اطلب الآن عبر واتساب
+                </a>
+
                 <Link href="/">
                   <Button
-                    variant="primary"
+                    variant="secondary"
                     size="lg"
-                    className="w-full rounded-2xl gap-2 text-base font-bold py-4 cursor-pointer"
+                    className="w-full rounded-2xl gap-2 text-base font-bold py-4 cursor-pointer text-olive dark:text-gold dark:border-gold hover:dark:bg-gold/10"
                   >
                     العودة للقائمة الرئيسية
                   </Button>
