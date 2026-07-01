@@ -29,7 +29,7 @@ export default function Hero() {
         <div className="animate-fade-in mb-8">
           <img
             src="/logo_circular.png"
-            alt="RiEaN CAFE"
+            alt="Rayhan CAFE"
             className="w-36 h-36 sm:w-48 sm:h-48 object-contain drop-shadow-2xl filter brightness-105 hover:scale-105 transition-transform duration-500"
           />
         </div>

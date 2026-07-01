@@ -135,12 +135,9 @@ export default function MenuSection({ products, bannerSettings }: MenuSectionPro
             <div className="w-24 h-24 sm:w-36 sm:h-36 md:w-64 md:h-40 rounded-2xl overflow-hidden relative border border-gold/15 order-2 shrink-0">
               <img
                 src={bannerSettings.image_url || '/waffle.png'}
-                alt="RiEaN atmosphere"
+                alt="Rayhan atmosphere"
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <span className="text-gold font-serif text-[9px] sm:text-xs md:text-xl font-bold tracking-widest bg-black/70 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-lg border border-gold/20">RiEaN</span>
-              </div>
             </div>
 
           </div>

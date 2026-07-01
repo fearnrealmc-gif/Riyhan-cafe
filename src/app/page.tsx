@@ -69,11 +69,19 @@ export default async function HomePage() {
               </div>
               <span className="text-sm font-bold text-charcoal dark:text-offwhite">ريحان كافيه</span>
               <span className="text-xs text-gold font-serif">
-                RiEaN CAFE
+                Rayhan CAFE
               </span>
             </div>
+            {/* Address */}
+            <div className="flex items-center justify-center gap-1.5 mb-4 text-xs text-charcoal/80 dark:text-offwhite/85 font-arabic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-gold shrink-0">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span>إدلب - كفرسجنة — غرب الدوار بـ 200 متر</span>
+            </div>
             <p className="text-xs text-warm-gray" dir="ltr">
-              © {new Date().getFullYear()} RiEaN CAFE. All rights reserved.
+              © {new Date().getFullYear()} Rayhan CAFE. All rights reserved.
             </p>
             <p className="text-[10px] text-warm-gray/50 mt-2" dir="ltr">
               Proudly built by{' '}

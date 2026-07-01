@@ -88,7 +88,7 @@ export default function AdminLayout({
         <div className="px-6 py-5 border-b border-white/5">
           <Link href="/" className="flex items-center gap-3">
             <img
-              src="/logo.jpg"
+              src="/logo_circular.png"
               alt="ريحان كافيه"
               className="w-9 h-9 rounded-full object-cover border border-white/10 shadow-md"
             />
