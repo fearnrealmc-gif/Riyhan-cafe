@@ -21,9 +21,9 @@ export default function Navbar() {
           {/* Right Side: Logo and Brand Name */}
           <Link href="/" className="flex items-center gap-3 group">
             <img
-              src="/logo_circular.png"
+              src="https://ik.imagekit.io/b4fz27u6x/1.png"
               alt="ريحان كافيه"
-              className="w-9 h-9 rounded-full object-cover shadow-md border border-gold/20 group-hover:scale-105 transition-transform duration-300"
+              className="w-12 h-12 rounded-full object-cover shadow-md border border-gold/20 group-hover:scale-105 transition-transform duration-300"
             />
             <div className="flex flex-col text-right">
               <span className="text-offwhite font-semibold text-base leading-tight tracking-tight">

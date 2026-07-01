@@ -28,9 +28,9 @@ export default function Hero() {
         {/* Circular Logo Emblem (without background) */}
         <div className="animate-fade-in mb-8">
           <img
-            src="/logo_circular.png"
+            src="https://ik.imagekit.io/b4fz27u6x/1.png"
             alt="Rayhan CAFE"
-            className="w-36 h-36 sm:w-48 sm:h-48 rounded-full object-cover drop-shadow-2xl filter brightness-105 hover:scale-105 transition-transform duration-500"
+            className="w-52 h-52 sm:w-64 sm:h-64 rounded-full object-cover drop-shadow-2xl filter brightness-105 hover:scale-105 transition-transform duration-500"
           />
         </div>
 
