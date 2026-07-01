@@ -30,7 +30,7 @@ export default function Hero() {
           <img
             src="/logo_circular.png"
             alt="Rayhan CAFE"
-            className="w-36 h-36 sm:w-48 sm:h-48 object-contain drop-shadow-2xl filter brightness-105 hover:scale-105 transition-transform duration-500"
+            className="w-36 h-36 sm:w-48 sm:h-48 rounded-full object-cover drop-shadow-2xl filter brightness-105 hover:scale-105 transition-transform duration-500"
           />
         </div>
 
