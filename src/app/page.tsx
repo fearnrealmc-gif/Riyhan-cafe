@@ -58,36 +58,7 @@ export default async function HomePage() {
           <MenuSection products={products} bannerSettings={bannerSettings} />
         </section>
 
-        {/* Gallery Section ("من أجوائنا") */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-          <div className="flex items-center gap-2 mb-10 justify-center">
-            <span className="text-gold/80 text-sm">🍃</span>
-            <h2 className="text-xl sm:text-2xl font-bold text-gold font-arabic tracking-wide">من أجوائنا</h2>
-            <span className="text-gold/80 text-sm">🍃</span>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { src: '/cocktails.png', title: 'كوكتيلات منعشة' },
-              { src: '/waffle.png', title: 'وافل طازج ولذيذ' },
-              { src: '/crepe.png', title: 'كريب فرنسي مميز' },
-            ].map((item, idx) => (
-              <div 
-                key={idx} 
-                className="group relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-lg bg-white dark:bg-white/5"
-              >
-                <img
-                  src={item.src}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                  <span className="text-offwhite font-bold text-base sm:text-lg font-arabic">{item.title}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Footer */}
         <footer className="border-t border-gray-200 dark:border-white/10 py-10 mt-8 bg-cream dark:bg-black transition-colors">
