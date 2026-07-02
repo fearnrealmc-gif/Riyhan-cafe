@@ -121,6 +121,20 @@ const categoryIcons: Record<string, React.ReactNode> = {
       <line x1="12.5" y1="4" x2="8.5" y2="8.5" />
     </svg>
   ),
+  fruit_salads: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-6.5 h-6.5">
+      <path d="M2 11 A 10 10 0 0 0 22 11 Z" fill="currentColor" opacity="0.2" />
+      <path d="M2 11 A 10 10 0 0 0 22 11 Z" />
+      <path d="M2 11 h 20" />
+      <circle cx="7" cy="8" r="2.5" fill="currentColor" opacity="0.4" />
+      <circle cx="7" cy="8" r="2.5" />
+      <circle cx="12" cy="7" r="3" fill="currentColor" opacity="0.4" />
+      <circle cx="12" cy="7" r="3" />
+      <circle cx="17" cy="8" r="2.5" fill="currentColor" opacity="0.4" />
+      <circle cx="17" cy="8" r="2.5" />
+      <path d="M12 4 c 0-2, 2-2, 2-2" />
+    </svg>
+  ),
 };
 
 export default function CategoryFilter({

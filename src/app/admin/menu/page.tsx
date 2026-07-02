@@ -30,6 +30,7 @@ const CATEGORY_OPTIONS = [
   { value: 'pancake', label: 'بانكيك' },
   { value: 'hookah', label: 'أركيلة' },
   { value: 'cocktails', label: 'كوكتيلات' },
+  { value: 'fruit_salads', label: 'سلطات فواكه' },
 ];
 
 interface ProductFormData {
@@ -264,12 +265,25 @@ export default function AdminMenuPage() {
       updated_at: new Date().toISOString(),
     };
 
+    let dbError = null;
     if (editingProduct) {
-
-      await supabase.from('products').update(payload).eq('id', editingProduct.id);
+      const { error } = await supabase.from('products').update(payload).eq('id', editingProduct.id);
+      dbError = error;
     } else {
+      const { error } = await supabase.from('products').insert(payload);
+      dbError = error;
+    }
 
-      await supabase.from('products').insert(payload);
+    if (dbError) {
+      console.error('Error saving product details:', {
+        message: dbError.message,
+        code: dbError.code,
+        details: dbError.details,
+        hint: dbError.hint
+      });
+      alert(`حدث خطأ أثناء حفظ المنتج:\nالرسالة: ${dbError.message}\nالكود: ${dbError.code}\nالتفاصيل: ${dbError.details || 'لا يوجد'}\nالتلميح: ${dbError.hint || 'لا يوجد'}`);
+      setIsSaving(false);
+      return;
     }
 
     setIsSaving(false);

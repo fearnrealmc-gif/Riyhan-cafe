@@ -104,4 +104,5 @@ export const CATEGORIES = [
   { key: 'pancake', label_en: 'Pancake', label_ar: 'بانكيك' },
   { key: 'hookah', label_en: 'Hookah', label_ar: 'أركيلة' },
   { key: 'cocktails', label_en: 'Cocktails', label_ar: 'كوكتيلات' },
+  { key: 'fruit_salads', label_en: 'Fruit Salads', label_ar: 'سلطات فواكه' },
 ] as const;

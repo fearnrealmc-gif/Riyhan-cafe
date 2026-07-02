@@ -16,6 +16,7 @@ const categoryColors: Record<string, string> = {
   cold_coffee: 'from-sky-100 to-blue-50',
   tea: 'from-emerald-100 to-green-50',
   pastry: 'from-yellow-100 to-amber-50',
+  fruit_salads: 'from-rose-100 to-red-50',
 };
 
 const categoryEmoji: Record<string, string> = {
@@ -23,6 +24,7 @@ const categoryEmoji: Record<string, string> = {
   cold_coffee: '🧊',
   tea: '🍵',
   pastry: '🥐',
+  fruit_salads: '🍓',
 };
 
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
@@ -86,6 +88,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           {product.category === 'pancake' && 'بانكيك'}
           {product.category === 'hookah' && 'أركيلة'}
           {product.category === 'cocktails' && 'كوكتيلات'}
+          {product.category === 'fruit_salads' && 'سلطات فواكه'}
         </span>
       </div>
 
